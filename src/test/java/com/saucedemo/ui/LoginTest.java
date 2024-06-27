@@ -28,7 +28,7 @@ public class LoginTest {
     public void testValidLogin(){
         d.findElement(By.cssSelector("#user-name")).sendKeys("standard_user");
         d.findElement(By.cssSelector("#password")).sendKeys("secret_sauce");
-        d.findElement(By.cssSelector("#password")).submit();
+        d.findElement(By.cssSelector("#login-button")).click();
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(d.findElement(By.cssSelector("#react-burger-menu-btn")).isDisplayed()).isTrue();
