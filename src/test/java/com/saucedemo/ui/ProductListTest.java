@@ -1,6 +1,5 @@
 package com.saucedemo.ui;
 
-import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,7 +30,7 @@ public class ProductListTest {
     }
 
     @Test
-    public void testProductSortByPrice(){
+    public void testProductSortByPriceAscending(){
         WebElement firstProductPrice = d.findElement(By.cssSelector("div[data-test=inventory-item]:first-child [data-test=inventory-item-price]"));
         WebElement lastProductPrice = d.findElement(By.cssSelector("div[data-test=inventory-item]:last-child [data-test=inventory-item-price]"));
 
