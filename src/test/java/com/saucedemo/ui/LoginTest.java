@@ -4,14 +4,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import org.testng.annotations.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,20 +14,33 @@ public class LoginTest {
     public void launchBrowser(){
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         d = new ChromeDriver();
+    }
+
+    @BeforeMethod
+    public void visitSite(){
         d.get("https://www.saucedemo.com/");
+    }
+
+    private void login(String username, String password) {
+        d.findElement(By.cssSelector("#user-name")).sendKeys(username);
+        d.findElement(By.cssSelector("#password")).sendKeys(password);
+        d.findElement(By.cssSelector("#login-button")).click();
     }
 
     @Test
     public void testValidLogin(){
-        d.findElement(By.cssSelector("#user-name")).sendKeys("standard_user");
-        d.findElement(By.cssSelector("#password")).sendKeys("secret_sauce");
-        d.findElement(By.cssSelector("#login-button")).click();
+        login("standard_user", "secret_sauce");
 
         SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(d.findElement(By.cssSelector("#react-burger-menu-btn")).isDisplayed()).isTrue();
         softly.assertThat(d.findElement(By.cssSelector("a[data-test=shopping-cart-link]")).isDisplayed()).isTrue();
+        softly.assertThat(d.findElement(By.cssSelector("#react-burger-menu-btn")).isDisplayed()).isTrue();
 
         assertThat(d.findElement(By.cssSelector("div.header_secondary_container > span")).getText()).isEqualTo("Products");
+    }
+
+    @AfterMethod
+    public void clearBrowser(){
+        d.manage().deleteAllCookies();
     }
 
     @AfterClass
