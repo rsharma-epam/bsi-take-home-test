@@ -13,7 +13,7 @@ public class APITest {
     @BeforeClass
     public void launchBrowser(){
         d.get("https://the-internet.herokuapp.com/login");
-        WebDriver d = new ChromeDriver();
+        d = new ChromeDriver();
     }
 
     @Test
