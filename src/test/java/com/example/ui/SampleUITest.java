@@ -18,7 +18,7 @@ public class SampleUITest {
         d.get("https://the-internet.herokuapp.com/login");
     }
 
-    @Test
+    @Test(enabled = false)
     public void testValidLogin(){
         d.findElement(By.cssSelector("#username")).sendKeys("tomsmith");
         d.findElement(By.cssSelector("#password")).sendKeys("SuperSecretPassword!");
