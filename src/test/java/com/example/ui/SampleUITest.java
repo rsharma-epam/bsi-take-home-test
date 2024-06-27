@@ -1,4 +1,4 @@
-package api.com.example;
+package com.example.ui;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,14 +6,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import static org.assertj.core.api.Assertions.*;
 
-public class APITest {
+public class SampleUITest {
     WebDriver d;
 
     @BeforeClass
     public void launchBrowser(){
-        d.get("https://the-internet.herokuapp.com/login");
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         d = new ChromeDriver();
+        d.get("https://the-internet.herokuapp.com/login");
     }
 
     @Test
@@ -21,6 +23,8 @@ public class APITest {
         d.findElement(By.cssSelector("#username")).sendKeys("tomsmith");
         d.findElement(By.cssSelector("#password")).sendKeys("SuperSecretPassword!");
         d.findElement(By.cssSelector("#password")).submit();
+
+        assertThat(d.findElement(By.cssSelector("#flash.success")).getText()).contains("You logged into a secure area!");
     }
 
     @AfterClass
