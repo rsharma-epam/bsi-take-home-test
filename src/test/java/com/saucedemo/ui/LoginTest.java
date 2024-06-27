@@ -38,6 +38,13 @@ public class LoginTest {
         assertThat(d.findElement(By.cssSelector("div.header_secondary_container > span")).getText()).isEqualTo("Products");
     }
 
+    @Test
+    public void testInvalidLogin(){
+        login("locked_out_user", "secret_sauce");
+        assertThat(d.findElement(By.cssSelector("h3[data-test=error]")).getText())
+                .isEqualTo("Epic sadface: Sorry, this user has been locked out.");
+    }
+
     @AfterMethod
     public void clearBrowser(){
         d.manage().deleteAllCookies();
