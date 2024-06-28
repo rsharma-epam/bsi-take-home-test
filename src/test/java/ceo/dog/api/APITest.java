@@ -5,6 +5,8 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -16,6 +18,19 @@ public class APITest {
         assertThat(response.getStatusCode()).isEqualTo(200);
         assertThat(response.getContentType()).isEqualTo("application/json");
         response.then().body("message", startsWith("https://images.dog.ceo"), "message", endsWith(".jpg"));
+        response.then().body("status", is("success"));
+    }
+
+    @Test(description = "test GET request to the Dog API endpoint that lists all dog breeds")
+    public void testListAllBreeds() {
+        Response response = RestAssured.get("https://dog.ceo/api/breeds/list/all");
+        response.then().statusCode(200);
+        response.then().contentType("application/json");
+
+        response.then().body("message", hasKey("affenpinscher"));
+        response.then().body("message", hasKey("beagle"));
+        response.then().body("message", hasKey("wolfhound"));
+
         response.then().body("status", is("success"));
     }
 }
