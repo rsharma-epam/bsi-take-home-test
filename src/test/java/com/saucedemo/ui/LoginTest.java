@@ -36,11 +36,15 @@ public class LoginTest {
         assertThat(d.findElement(By.cssSelector("div.header_secondary_container > span")).getText()).isEqualTo("Products");
     }
 
-    @Test
-    public void testInvalidLogin(){
-        loginPage.login("locked_out_user", "secret_sauce");
-        assertThat(d.findElement(By.cssSelector("h3[data-test=error]")).getText())
-                .isEqualTo("Epic sadface: Sorry, this user has been locked out.");
+    @Test(dataProvider = "invalidCreds")
+    public void testInvalidLogin(String username, String password, String expectedErrorMsg){
+        loginPage.login(username, password);
+        assertThat(d.findElement(By.cssSelector("h3[data-test=error]")).getText()).isEqualTo(expectedErrorMsg);
+    }
+
+    @DataProvider (name = "invalidCreds")
+    public Object[][] getInvalidCreds(){
+        return new Object[][] {{"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."}};
     }
 
     @AfterMethod
