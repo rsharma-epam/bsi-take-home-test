@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="SingleSuite" verbose="2" parallel="classes" thread-count="2">
+<suite name="SingleSuite" verbose="2" parallel="classes" thread-count="3">
 
     <parameter name="username" value="standard_user" />
     <parameter name="password" value="secret_sauce" />
 
     <test name="Regression">
-        <groups>
-            <run>
-                <exclude name="flaky" />
-            </run>
-        </groups>
-
+        <packages>
+            <package name="ceo.dog.api"/>
+            <package name="com.saucedemo.ui"/>
+        </packages>
     </test>
 </suite>
