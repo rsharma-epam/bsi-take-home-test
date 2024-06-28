@@ -33,4 +33,17 @@ public class APITest {
 
         response.then().body("status", is("success"));
     }
+
+    @Test(description = "test GET request to the Dog API endpoint that provides images for the specified sub-breed")
+    public void testRetrieveSubBreedImages() {
+        Response response = RestAssured.get("https://dog.ceo/api/breed/hound/afghan/images");
+        response.then().statusCode(200);
+        response.then().contentType("application/json");
+        response.then().body("status", is("success"));
+
+        response.then().body("message", hasItems("https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg"
+                , "https://images.dog.ceo/breeds/hound-afghan/n02088094_1259.jpg"
+                , "https://images.dog.ceo/breeds/hound-afghan/n02088094_988.jpg"));
+
+    }
 }
