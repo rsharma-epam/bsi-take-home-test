@@ -8,8 +8,11 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
 
 public class ProductListTest {
+    public static final String FIRST_PRODUCT_PRICE = "div[data-test=inventory-item]:first-child [data-test=inventory-item-price]";
+    public static final String LAST_PRODUCT_PRICE = "div[data-test=inventory-item]:last-child [data-test=inventory-item-price]";
     WebDriver d;
     @BeforeClass
     public void launchBrowser(){
@@ -30,18 +33,15 @@ public class ProductListTest {
     }
 
     @Test
-    public void testProductSortByPriceAscending(){
-        WebElement firstProductPrice = d.findElement(By.cssSelector("div[data-test=inventory-item]:first-child [data-test=inventory-item-price]"));
-        WebElement lastProductPrice = d.findElement(By.cssSelector("div[data-test=inventory-item]:last-child [data-test=inventory-item-price]"));
-
-        assertThat(firstProductPrice.getText()).contains("29.99");
-        assertThat(lastProductPrice.getText()).contains("15.99");
+    public void testProductSortByPriceAscending() throws InterruptedException {
+        assertThat(d.findElement(By.cssSelector(FIRST_PRODUCT_PRICE)).getText()).contains("29.99");
+        assertThat(d.findElement(By.cssSelector(LAST_PRODUCT_PRICE)).getText()).contains("15.99");
 
         Select sortSelector = new Select(d.findElement(By.cssSelector("select[data-test=product-sort-container]")));
         sortSelector.selectByVisibleText("Price (low to high)");
 
-        assertThat(firstProductPrice.getText()).contains("7.99");
-        assertThat(lastProductPrice.getText()).contains("49.99");
+        assertThat(d.findElement(By.cssSelector(FIRST_PRODUCT_PRICE)).getText()).contains("7.99");
+        assertThat(d.findElement(By.cssSelector(LAST_PRODUCT_PRICE)).getText()).contains("49.99");
     }
 
     @AfterMethod
