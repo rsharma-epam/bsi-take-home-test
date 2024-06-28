@@ -35,7 +35,7 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void testAddSingleItemToCart() throws InterruptedException {
+    public void testAddSingleItemToCart() {
         d.findElement(By.xpath(BACKPACK_ADD_TO_CART)).click();
 
         assertThat(d.findElement(By.cssSelector(CART_BADGE)).getText()).isEqualTo("1");
